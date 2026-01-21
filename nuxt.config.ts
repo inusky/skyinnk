@@ -29,13 +29,6 @@ export default defineNuxtConfig({
     rollupConfig: {
       external: [/^@prisma\//, /\.wasm$/],
     },
-    externals: {
-      inline: [
-        '@prisma/client',
-        '.prisma/client'
-      ]
-    },
-    preset: 'vercel',
   },
   ssr: true,
 });
