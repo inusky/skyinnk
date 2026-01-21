@@ -1,0 +1,37 @@
+{
+  "name": "skyinnk",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare && prisma generate",
+    "vercel-build": "prisma generate && nuxt build"
+  },
+  "dependencies": {
+    "@clerk/nuxt": "^1.13.12",
+    "@nuxt/image": "^2.0.0",
+    "@nuxtjs/mdc": "^0.19.2",
+    "@pinia/nuxt": "^0.11.3",
+    "@prisma/client": "^6.19.1",
+    "@prisma/nuxt": "^0.3.0",
+    "autoprefixer": "^10.4.23",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.2.3",
+    "nuxt": "^4.2.2",
+    "pinia": "^3.0.4",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "prisma": "^6.19.1",
+    "sass": "^1.97.2",
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^6.0.4",
+    "vue": "^3.5.26",
+    "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.6"
+  }
+}

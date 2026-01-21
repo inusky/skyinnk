@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  justify-content: center;
+  min-width: 100%;
+}
+
+.container-inner {
+  min-width: 80rem;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    min-height: 30rem;
+    background-image: linear-gradient(to top right, #1818dd, #963bc3);
+    margin-bottom: 5rem;
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-inner {
+      max-width: 70rem;
+    }
+  }
+
+  .content {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+
+    &-inner {
+      grid-column: 2 / 3;
+    }
+  }
+}

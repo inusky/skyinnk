@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  clerkId   String    @unique
+  email     String    @unique
+  name      String?
+  imageUrl  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+model Course {
+  id          String    @id @default(cuid())
+  title       String    @unique
+  description String
+  image       String
+  lang        String
+  whoFor      String
+  learning    String
+  chapters    Chapter[]
+  lessons     Lesson[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([title])
+  @@index([lang])
+}
+
+model Chapter {
+  id        String   @id @default(cuid())
+  title     String   @unique
+  lessons   Lesson[]
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+}
+
+model Lesson {
+  id        String   @id @default(cuid())
+  title     String   @unique
+  content   String
+  chapter   Chapter  @relation(fields: [chapterId], references: [id])
+  chapterId String
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+  @@index([chapterId])
+}
