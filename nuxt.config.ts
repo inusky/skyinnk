@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
+    preset: 'node-server',
     rollupConfig: {
       external: [/^@prisma\//, /\.wasm$/],
     },
