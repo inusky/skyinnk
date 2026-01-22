@@ -1,27 +1,44 @@
 <template>
   <div class="container">
     <h1>Lessons</h1>
-    <div class="lesson-content">
-      <p v-if="pending">Loading...</p>
-      <p v-else-if="error">Error: {{ error.message }}</p>
-      <p v-else-if="!lessons.length">No lessons yet.</p>
-      <div v-else class="lesson-accordion">
-        <details v-for="(lesson, index) in lessons" :key="lesson.id" class="lesson-item" :open="index === 0">
-          <summary class="lesson-item__summary">
-            <span class="lesson-item__chevron" aria-hidden="true"></span>
-            <span class="lesson-item__title">{{ lesson.title }}</span>
-          </summary>
-          <div class="lesson-item__body">
-            <button type="button" class="lesson-item__link" @click="toggleLesson(lesson.id)">
-              Learn more
-            </button>
-            <div v-if="expandedLessons[lesson.id]" class="lesson-item__content">
-              <MDC v-for="(paragraph, index) in getLessonParagraphs(lesson.content)"
-                :key="`lesson-${lesson.id}-${index}`" :value="paragraph" class="lesson-item__paragraph" />
+    <div class="lesson-layout">
+      <div class="lesson-content">
+        <p v-if="pending">Loading...</p>
+        <p v-else-if="error">Error: {{ error.message }}</p>
+        <p v-else-if="!lessons.length">No lessons yet.</p>
+        <div v-else class="lesson-accordion">
+          <details v-for="(lesson, index) in lessons" :id="`lesson-${lesson.id}`" :key="lesson.id"
+            class="lesson-item" :open="index === 0">
+            <summary class="lesson-item__summary">
+              <span class="lesson-item__chevron" aria-hidden="true"></span>
+              <span :id="`lesson-title-${lesson.id}`" class="lesson-item__title">{{ lesson.title }}</span>
+            </summary>
+            <div class="lesson-item__body">
+              <button :id="`lesson-link-${lesson.id}`" type="button" class="lesson-item__link"
+                @click="toggleLesson(lesson.id)">
+                Learn more
+              </button>
+              <div v-if="expandedLessons[lesson.id]" class="lesson-item__content">
+                <MDC v-for="(paragraph, index) in getLessonParagraphs(lesson.content)"
+                  :key="`lesson-${lesson.id}-${index}`" :value="paragraph" class="lesson-item__paragraph" />
+              </div>
             </div>
-          </div>
-        </details>
+          </details>
+        </div>
       </div>
+      <aside v-if="lessons.length" class="lesson-nav" aria-label="Lesson links">
+        <h2 class="lesson-nav__title">Lessons in this chapter</h2>
+        <nav>
+          <ul class="lesson-nav__list">
+            <li v-for="lesson in lessons" :key="`nav-${lesson.id}`" class="lesson-nav__item">
+              <a class="lesson-nav__link" :href="`#lesson-link-${lesson.id}`"
+                @click.prevent="scrollToLesson(lesson.id)">
+                {{ lesson.title }}
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
     </div>
   </div>
 </template>
@@ -53,6 +70,29 @@ const toggleLesson = (lessonId: string) => {
     ...expandedLessons.value,
     [lessonId]: !expandedLessons.value[lessonId],
   };
+};
+
+const scrollToLesson = (lessonId: string) => {
+  const title = document.getElementById(`lesson-title-${lessonId}`);
+  const link = document.getElementById(`lesson-link-${lessonId}`);
+  const target = title ?? link;
+
+  if (!target) {
+    return;
+  }
+
+  const details = target.closest('details') as HTMLDetailsElement | null;
+  if (details) {
+    details.open = true;
+  }
+
+  requestAnimationFrame(() => {
+    const header = document.querySelector('.header') as HTMLElement | null;
+    const headerHeight = header?.offsetHeight ?? 0;
+    const extraOffset = target === title ? 22 : 6;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - extraOffset;
+    window.scrollTo({ top: Math.max(top, 0), behavior: 'auto' });
+  });
 };
 
 const getLessonParagraphs = (content: string | null | undefined) => {
@@ -93,6 +133,55 @@ button {
 
   &:hover {
     color: #fff;
+  }
+}
+
+.lesson-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: 24px;
+  align-items: start;
+}
+
+.lesson-nav {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  justify-self: end;
+}
+
+.lesson-nav__title {
+  margin: 0 0 12px;
+  font-family: $titleFont;
+  font-size: 1.2rem;
+}
+
+.lesson-nav__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.lesson-nav__link {
+  color: $black;
+  text-decoration: none;
+  font-family: $contentFont;
+  transition: none;
+
+  &:hover {
+    color: #0000ff;
+  }
+}
+
+@media (max-width: 960px) {
+  .lesson-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lesson-nav {
+    display: none;
   }
 }
 </style>
