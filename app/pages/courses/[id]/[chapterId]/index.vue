@@ -6,8 +6,7 @@
       <p v-else-if="error">Error: {{ error.message }}</p>
       <p v-else-if="!lessons.length">No lessons yet.</p>
       <div v-else class="lesson-accordion">
-        <details v-for="(lesson, index) in lessons" :key="lesson.id" class="lesson-item"
-          :open="index === 0">
+        <details v-for="(lesson, index) in lessons" :key="lesson.id" class="lesson-item" :open="index === 0">
           <summary class="lesson-item__summary">
             <span class="lesson-item__chevron" aria-hidden="true"></span>
             <span class="lesson-item__title">{{ lesson.title }}</span>
@@ -28,6 +27,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: 'auth'
+});
+
 type Lesson = {
   id: string;
   title: string;
