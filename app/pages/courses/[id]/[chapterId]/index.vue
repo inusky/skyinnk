@@ -1,53 +1,95 @@
 <template>
   <div class="container">
     <h1>Lessons</h1>
-    <div class="list">
+    <div class="lesson-content">
       <p v-if="pending">Loading...</p>
       <p v-else-if="error">Error: {{ error.message }}</p>
       <p v-else-if="!lessons.length">No lessons yet.</p>
-      <NuxtLink v-else v-for="(lesson) in lessons" :key="lesson.id" :to="{
-        path: `/courses/${courseId}/${chapterId}/${lesson.id}`,
-        query: chapterTitle ? { chapterTitle } : undefined,
-      }" class="card course-overview">
-        <div class="card-inner">
-          <div class="course-details">
-            <h2 class="course-title">{{ lesson.title }}</h2>
-            <p class="course-description">Last Updated {{ formatDate(lesson.updatedAt) }}</p>
+      <div v-else class="lesson-accordion">
+        <details v-for="(lesson, index) in lessons" :key="lesson.id" class="lesson-item"
+          :open="index === 0">
+          <summary class="lesson-item__summary">
+            <span class="lesson-item__chevron" aria-hidden="true"></span>
+            <span class="lesson-item__title">{{ lesson.title }}</span>
+          </summary>
+          <div class="lesson-item__body">
+            <button type="button" class="lesson-item__link" @click="toggleLesson(lesson.id)">
+              Learn more
+            </button>
+            <div v-if="expandedLessons[lesson.id]" class="lesson-item__content">
+              <MDC v-for="(paragraph, index) in getLessonParagraphs(lesson.content)"
+                :key="`lesson-${lesson.id}-${index}`" :value="paragraph" class="lesson-item__paragraph" />
+            </div>
           </div>
-        </div>
-      </NuxtLink>
+        </details>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { format } from 'date-fns';
+type Lesson = {
+  id: string;
+  title: string;
+  content: string;
+};
 
 const route = useRoute();
 const courseId = computed(() => route.params.id as string);
 const chapterId = computed(() => route.params.chapterId as string);
-const chapterTitle = computed(() =>
-  typeof route.query.title === 'string' ? route.query.title.trim() : '',
-);
 
-const { data, pending, error }: any = useFetch(
+const { data, pending, error } = useFetch<{ lessons: Lesson[] }>(
   () => `/api/v1/course/chapter/${chapterId.value}?id=${courseId.value}`,
 );
 
-const lessons = computed(() => data.value?.lessons ?? []);
+const lessons = computed<Lesson[]>(() => data.value?.lessons ?? []);
+const expandedLessons = ref<Record<string, boolean>>({});
 
-const formatDate = (value: string | null | undefined) => {
-  if (!value) return 'Recently';
-  const parsed = new Date(value);
+const toggleLesson = (lessonId: string) => {
+  expandedLessons.value = {
+    ...expandedLessons.value,
+    [lessonId]: !expandedLessons.value[lessonId],
+  };
+};
 
-  if (Number.isNaN(parsed.getTime())) {
-    return 'Recently';
+const getLessonParagraphs = (content: string | null | undefined) => {
+  const trimmed = content?.replace(/\r\n/g, '\n').trim() ?? '';
+
+  if (!trimmed) {
+    return ['Lesson content will appear here soon.'];
   }
 
-  return format(parsed, 'd MMM, yyyy');
+  const parts = trimmed
+    .split(/\n{2,}/)
+    .map((paragraph) => paragraph.replace(/\s+/g, ' ').trim())
+    .filter(Boolean);
+
+  return parts.length ? parts : ['Lesson content will appear here soon.'];
 };
 </script>
 
 <style scoped lang="scss">
-@use '../../../../assets/scss/components/courses' as *;
+@use '../../../../assets/scss/config/variables' as *;
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 5px;
+  background: $blue-700;
+  color: $light;
+  font-family: $contentFont;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+
+  &:hover {
+    color: #fff;
+  }
+}
 </style>

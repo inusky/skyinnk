@@ -18,6 +18,6 @@ export default defineNuxtRouteMiddleware(async () => {
       method: 'post',
     });
   } else {
-    return navigateTo('auth/sign-in');
+    return navigateTo('/auth/sign-in');
   }
 });
