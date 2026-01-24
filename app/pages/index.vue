@@ -1,26 +1,38 @@
 <template>
   <div class="container">
-    <section class="container-inner">
-      <NuxtImg src="https://skyinnk-r2.skyinnk-api.workers.dev?key=students.png" alt="Students" quality="80" />
+    <section class="hero-container">
+      <NuxtImg :src="r2Url + '?key=hero-image-on-top.jpg'" alt="Students" quality="80" />
       <div class="intro">
         <SignedOut>
-          <h1>Every child deserves the chance to learn.</h1>
-          <p style="margin-bottom: 2rem;">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          </p>
-          <button @click="router.push('auth/sign-up')">Join for free</button>
-          <p>
-            Already have an account?
-            <NuxtLink class="log-in" to="/auth/sign-in">
-              Log in
-            </NuxtLink>
-          </p>
+          <div class="hero-text">
+            <h1>Learning that inspires thinking, expression, and purpose.</h1>
+            <p>
+              A space where curiosity is explored deeply, ideas are understood clearly, and learning feels meaningful.
+            </p>
+            <p>
+              Nurturing curiosity with clarity and confidence for every learner.
+            </p>
+          </div>
+          <div class="cta">
+            <button @click="router.push('auth/sign-up')">Join for free</button>
+            <p class="log-in">
+              <span>Already have an account?</span>
+              <NuxtLink class="log-in__link" to="/auth/sign-in">
+                Log in
+              </NuxtLink>
+            </p>
+          </div>
         </SignedOut>
         <SignedIn>
-          <h1>Every child deserves the chance to learn.</h1>
-          <p style="margin-bottom: 2rem;">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          </p>
+          <div class="hero-text">
+            <h1>Learning that inspires thinking, expression, and purpose.</h1>
+            <p>
+              A space where curiosity is explored deeply, ideas are understood clearly, and learning feels meaningful.
+            </p>
+            <p>
+              Nurturing curiosity with clarity and confidence for every learner.
+            </p>
+          </div>
         </SignedIn>
       </div>
     </section>
@@ -150,6 +162,8 @@
 
 <script setup lang="ts">
 const router = useRouter();
+const r2Url = ref('https://skyinnk-r2.skyinnk-api.workers.dev');
+
 const { data, pending, error }: any = await useFetch('/api/v1/courses/few');
 
 const courses = computed(() => data.value?.courses ?? []);

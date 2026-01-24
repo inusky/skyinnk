@@ -32,7 +32,7 @@
                 </div>
                 <div class="course-actions">
                   <button class="course-actions" @click="router.push(`/courses/${course.id}`)">
-                    View course
+                    Start learning
                   </button>
                 </div>
               </div>

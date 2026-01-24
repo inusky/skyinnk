@@ -33,12 +33,22 @@ h2,
 h3,
 h4 {
   font-family: $titleFont;
+  line-height: 1.4;
 }
 
 a {
   text-decoration: none;
-  color: #000;
   font-family: $tagFont;
+  border: none;
+  background: none;
+  color: $blue-700;
+  font-style: italic;
+  cursor: pointer;
+  justify-self: start;
+
+  &:hover {
+    color: $blue-900;
+  }
 }
 
 button {

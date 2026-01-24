@@ -6,33 +6,52 @@
         <p v-if="pending">Loading...</p>
         <p v-else-if="error">Error: {{ error.message }}</p>
         <p v-else-if="!lessons.length">No lessons yet.</p>
-        <div v-else class="lesson-accordion">
-          <details v-for="(lesson, index) in lessons" :id="`lesson-${lesson.id}`" :key="lesson.id"
-            class="lesson-item" :open="index === 0">
-            <summary class="lesson-item__summary">
-              <span class="lesson-item__chevron" aria-hidden="true"></span>
-              <span :id="`lesson-title-${lesson.id}`" class="lesson-item__title">{{ lesson.title }}</span>
-            </summary>
-            <div class="lesson-item__body">
-              <button :id="`lesson-link-${lesson.id}`" type="button" class="lesson-item__link"
-                @click="toggleLesson(lesson.id)">
-                Learn more
-              </button>
-              <div v-if="expandedLessons[lesson.id]" class="lesson-item__content">
-                <MDC v-for="(paragraph, index) in getLessonParagraphs(lesson.content)"
-                  :key="`lesson-${lesson.id}-${index}`" :value="paragraph" class="lesson-item__paragraph" />
-              </div>
+        <div v-else class="lesson-list">
+          <section
+            v-for="lesson in lessons"
+            :id="`lesson-${lesson.id}`"
+            :key="lesson.id"
+            class="lesson-block"
+          >
+            <h2 :id="`lesson-title-${lesson.id}`" class="lesson-block__title">
+              {{ lesson.title }}
+            </h2>
+            <div
+              v-html="getLessonContent(lesson.content)"
+              class="lesson-block__content"
+            ></div>
+            <NuxtLink
+              v-if="lesson.contentPPT"
+              @click="router.push(`${lesson.contentPPT}`)"
+              style="margin-top: 1rem"
+              >Download PPT</NuxtLink
+            >
+            <div
+              v-if="lesson.contentVideos"
+              v-for="video in getAudience(lesson.contentVideos)"
+              :key="video"
+              class="videos"
+            >
+              <video width="400" height="300" controls>
+                <source :src="video" type="video/webp" />
+              </video>
             </div>
-          </details>
+          </section>
         </div>
       </div>
       <aside v-if="lessons.length" class="lesson-nav" aria-label="Lesson links">
         <h2 class="lesson-nav__title">Lessons in this chapter</h2>
         <nav>
           <ul class="lesson-nav__list">
-            <li v-for="lesson in lessons" :key="`nav-${lesson.id}`" class="lesson-nav__item">
-              <a class="lesson-nav__link" :href="`#lesson-link-${lesson.id}`"
-                @click.prevent="scrollToLesson(lesson.id)">
+            <li
+              v-for="lesson in lessons"
+              :key="`nav-${lesson.id}`"
+              class="lesson-nav__item"
+            >
+              <a
+                :href="`#lesson-${lesson.id}`"
+                @click.prevent="scrollToLessonTitle(lesson.id)"
+              >
                 {{ lesson.title }}
               </a>
             </li>
@@ -44,101 +63,80 @@
 </template>
 
 <script setup lang="ts">
+const route = useRoute();
+const router = useRouter();
+const courseId = computed(() => route.params.id as string);
+const chapterId = computed(() => route.params.chapterId as string);
+
 definePageMeta({
-  middleware: 'auth'
+  middleware: 'auth',
 });
 
 type Lesson = {
   id: string;
   title: string;
   content: string;
+  contentPPT: string;
+  contentVideos: string;
 };
-
-const route = useRoute();
-const courseId = computed(() => route.params.id as string);
-const chapterId = computed(() => route.params.chapterId as string);
 
 const { data, pending, error } = useFetch<{ lessons: Lesson[] }>(
   () => `/api/v1/course/chapter/${chapterId.value}?id=${courseId.value}`,
 );
 
 const lessons = computed<Lesson[]>(() => data.value?.lessons ?? []);
-const expandedLessons = ref<Record<string, boolean>>({});
 
-const toggleLesson = (lessonId: string) => {
-  expandedLessons.value = {
-    ...expandedLessons.value,
-    [lessonId]: !expandedLessons.value[lessonId],
-  };
-};
+const getLessonContent = (content: string | null | undefined) => {
+  const trimmed = content?.replace(/\r\n/g, '\n').trim() ?? '';
 
-const scrollToLesson = (lessonId: string) => {
-  const title = document.getElementById(`lesson-title-${lessonId}`);
-  const link = document.getElementById(`lesson-link-${lessonId}`);
-  const target = title ?? link;
-
-  if (!target) {
-    return;
+  if (!trimmed) {
+    return 'Lesson content will appear here soon.';
   }
 
-  const details = target.closest('details') as HTMLDetailsElement | null;
-  if (details) {
-    details.open = true;
+  return trimmed;
+};
+
+const getAudience = (audience: string | null | undefined) => {
+  const items =
+    audience
+      ?.split(',')
+      .map((item) => item.trim())
+      .filter(Boolean) ?? [];
+
+  return items.length ? items : ['null'];
+};
+
+const scrollToLessonTitle = (lessonId: string) => {
+  const title = document.getElementById(`lesson-title-${lessonId}`);
+
+  if (!title) {
+    return;
   }
 
   requestAnimationFrame(() => {
     const header = document.querySelector('.header') as HTMLElement | null;
     const headerHeight = header?.offsetHeight ?? 0;
-    const extraOffset = target === title ? 22 : 6;
-    const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - extraOffset;
-    window.scrollTo({ top: Math.max(top, 0), behavior: 'auto' });
+    const extraOffset = 0;
+    const top =
+      title.getBoundingClientRect().top +
+      window.scrollY -
+      headerHeight -
+      extraOffset;
+    window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
   });
-};
-
-const getLessonParagraphs = (content: string | null | undefined) => {
-  const trimmed = content?.replace(/\r\n/g, '\n').trim() ?? '';
-
-  if (!trimmed) {
-    return ['Lesson content will appear here soon.'];
-  }
-
-  const parts = trimmed
-    .split(/\n{2,}/)
-    .map((paragraph) => paragraph.replace(/\s+/g, ' ').trim())
-    .filter(Boolean);
-
-  return parts.length ? parts : ['Lesson content will appear here soon.'];
 };
 </script>
 
 <style scoped lang="scss">
 @use '../../../../assets/scss/config/variables' as *;
 
-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 18px;
-  border-radius: 5px;
-  background: $blue-700;
-  color: $light;
-  font-family: $contentFont;
-  font-weight: 600;
-  text-decoration: none;
-  border: 1px solid transparent;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
-
-  &:hover {
-    color: #fff;
-  }
+.lesson-content {
+  margin-top: 1.5rem;
 }
 
 .lesson-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 240px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px;
   align-items: start;
 }
@@ -148,12 +146,13 @@ button {
   top: 24px;
   align-self: start;
   justify-self: end;
+  display: none;
 }
 
 .lesson-nav__title {
   margin: 0 0 12px;
   font-family: $titleFont;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 
 .lesson-nav__list {
@@ -164,24 +163,64 @@ button {
   gap: 10px;
 }
 
-.lesson-nav__link {
-  color: $black;
-  text-decoration: none;
-  font-family: $contentFont;
-  transition: none;
-
-  &:hover {
-    color: #0000ff;
-  }
+.lesson-list {
+  display: grid;
+  gap: 24px;
 }
 
-@media (max-width: 960px) {
+.lesson-block {
+  padding-bottom: 24px;
+  border-bottom: 1px solid $grey-200;
+}
+
+.lesson-block:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.lesson-block__title {
+  margin: 0 0 12px;
+  font-family: $titleFont;
+  font-size: 1.8rem;
+  color: $grey-900;
+}
+
+.lesson-block__content {
+  font-family: $tagFont;
+  line-height: 2.1;
+}
+
+.lesson-block__content :deep(p) {
+  margin: 0 0 12px;
+}
+
+.lesson-block__content :deep(p:last-child) {
+  margin-bottom: 0;
+}
+
+.course-media {
+  align-self: center;
+}
+
+.videos {
+  margin-top: 1rem;
+}
+
+@media (min-width: $tablet) {
   .lesson-layout {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 240px;
   }
 
   .lesson-nav {
-    display: none;
+    display: block;
+  }
+
+  .lesson-list {
+    gap: 32px;
+  }
+
+  .course-media {
+    align-self: auto;
   }
 }
 </style>

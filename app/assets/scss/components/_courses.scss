@@ -2,13 +2,13 @@
 
 .list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 50%);
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px;
 }
 
 .card {
   border: 1px solid $grey-200;
-  padding: 24px;
+  padding: 20px;
   border-radius: 18px;
   transition:
     box-shadow 0.3s ease,
@@ -43,6 +43,7 @@
 
 .course-hero {
   display: flex;
+  flex-direction: column;
   gap: 24px;
   justify-content: center;
   align-items: center;
@@ -69,14 +70,16 @@
 }
 
 .course-media {
-  width: 240px;
+  order: -1;
+  width: min(220px, 100%);
   display: grid;
   gap: 12px;
+  align-self: flex-start;
 }
 
 .course-media img {
   width: 100%;
-  height: 160px;
+  height: 130px;
   object-fit: cover;
   border-radius: 14px;
   background: $grey-100;
@@ -108,6 +111,7 @@
   list-style: none;
   font-family: $tagFont;
   color: $grey-700;
+  grid-template-columns: 1fr;
 }
 
 .course-audience__list li {
@@ -132,10 +136,13 @@
   border: none;
   background: none;
   color: $blue-700;
-  font-family: $contentFont;
-  font-weight: 600;
+  font-style: italic;
   cursor: pointer;
   justify-self: start;
+
+  &:hover {
+    color: $blue-900;
+  }
 }
 
 .course-actions {
@@ -143,33 +150,33 @@
   justify-content: flex-end;
 }
 
-@media (max-width: $tablet) {
-  .card {
-    padding: 20px;
-  }
-
-  .course-hero {
-    flex-direction: column;
-  }
-
-  .course-media {
-    order: -1;
-    width: min(220px, 100%);
-    align-self: flex-start;
-  }
-
-  .course-media img {
-    height: 130px;
-  }
-}
-
-@media (max-width: $mobileL) {
+@media (min-width: $mobileL) {
   .list {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(auto-fit, 50%);
   }
 
   .course-audience__list {
-    grid-template-columns: 1fr;
+    grid-template-columns: initial;
+  }
+}
+
+@media (min-width: $tablet) {
+  .card {
+    padding: 24px;
+  }
+
+  .course-hero {
+    flex-direction: row;
+  }
+
+  .course-media {
+    order: 0;
+    width: 240px;
+    align-self: auto;
+  }
+
+  .course-media img {
+    height: 160px;
   }
 }
 
@@ -184,7 +191,8 @@
 
 .course-content__header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: column;
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 16px;
@@ -241,10 +249,10 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 16px 20px;
+  padding: 14px 16px;
   cursor: pointer;
   font-family: $titleFont;
-  font-size: 1.1rem;
+  font-size: 1.7rem;
   color: $grey-800;
 }
 
@@ -257,7 +265,7 @@
   height: 10px;
   border-right: 2px solid $grey-600;
   border-bottom: 2px solid $grey-600;
-  transform: rotate(45deg) translateY(-2px);
+  transform: rotate(45deg);
   transition: transform 0.2s ease;
 }
 
@@ -266,7 +274,7 @@
 }
 
 .course-section__body {
-  padding: 0 20px 16px;
+  padding: 0 16px 14px;
 
   .course-section__more:hover {
     color: #0000ff;
@@ -289,7 +297,7 @@
 
 .course-section__lesson {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
   text-decoration: none;
@@ -303,9 +311,20 @@
 }
 
 .course-section__lesson-title {
+  border: none;
+  background: none;
+  color: $blue-700;
   display: flex;
   align-items: center;
   gap: 12px;
+  font-style: italic;
+  cursor: pointer;
+  justify-self: start;
+  margin-left: 2.3rem;
+
+  &:hover {
+    color: $blue-900;
+  }
 }
 
 .lesson-content {
@@ -328,7 +347,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 16px 20px;
+  padding: 14px 16px;
   cursor: pointer;
   font-family: $titleFont;
   font-size: 1.05rem;
@@ -353,19 +372,7 @@
 }
 
 .lesson-item__body {
-  padding: 0 20px 16px;
-}
-
-.lesson-item__link {
-  font-family: $contentFont;
-  color: $grey-700;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition: none;
-  border: none;
-  background: none;
-  padding: 0;
-  cursor: pointer;
+  padding: 0 16px 14px;
 }
 
 .lesson-item__link:hover {
@@ -385,29 +392,29 @@
   line-height: 1.6;
 }
 
-@media (max-width: $mobileL) {
+@media (min-width: $mobileL) {
   .course-content__header {
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
   }
 
   .course-section__summary {
-    padding: 14px 16px;
+    padding: 16px 20px;
   }
 
   .course-section__body {
-    padding: 0 16px 14px;
+    padding: 0 20px 16px;
   }
 
   .course-section__lesson {
-    align-items: flex-start;
+    align-items: center;
   }
 
   .lesson-item__summary {
-    padding: 14px 16px;
+    padding: 16px 20px;
   }
 
   .lesson-item__body {
-    padding: 0 16px 14px;
+    padding: 0 20px 16px;
   }
 }

@@ -61,6 +61,8 @@ model Lesson {
   id        String   @id @default(cuid())
   title     String   @unique
   content   String
+  contentPPT String?
+  contentVideos String?
   chapter   Chapter  @relation(fields: [chapterId], references: [id])
   chapterId String
   course    Course   @relation(fields: [courseId], references: [id])

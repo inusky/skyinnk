@@ -1,18 +1,27 @@
 @use '../config/variables' as *;
 
 .container {
-  width: min(1200px, 92%);
+  width: min(1200px, 94%);
   margin: 0 auto;
-  padding: 3.5rem 0 4rem;
+  padding: 2.5rem 0 3rem;
   display: grid;
-  gap: 3rem;
+  gap: 2.5rem;
 }
 
-.container-inner {
+.hero-container {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   gap: 2.5rem;
+
+  .hero-text {
+    h1 {
+      margin-bottom: 2rem;
+    }
+    p {
+      margin-bottom: 1rem;
+    }
+  }
 
   img {
     max-width: 520px;
@@ -20,15 +29,45 @@
   }
 }
 
+.container-inner {
+  flex-direction: column;
+  text-align: center;
+}
+
+.container-inner img {
+  max-width: 420px;
+}
+
 .intro {
-  margin-top: 5rem;
+  margin-top: 1rem;
   max-width: 520px;
 
-  .log-in {
-    color: #1818ca;
+  .cta {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
 
-    &:hover {
-      text-decoration: underline;
+  .join {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 1.6rem;
+  }
+
+  .log-in {
+    font-family: $tagFont;
+
+    span {
+      font-style: italic;
+    }
+
+    &__link {
+      color: #1818ca;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }
@@ -46,8 +85,8 @@
     var(--rail-2) 55%,
     var(--rail-3)
   );
-  border-radius: 28px;
-  padding: 2.75rem;
+  border-radius: 22px;
+  padding: 1.6rem;
   position: relative;
   overflow: hidden;
   box-shadow: $shadow-4;
@@ -71,7 +110,7 @@
     z-index: 1;
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
     gap: 2rem;
     align-items: stretch;
   }
@@ -82,8 +121,8 @@
     gap: 1.2rem;
     color: $light;
     font-family: $titleFont;
-    min-width: 20rem;
-    margin-right: 2rem;
+    min-width: 16rem;
+    margin-right: 0;
   }
 
   &__eyebrow {
@@ -103,6 +142,8 @@
     font-size: 1.5rem;
     text-decoration: none;
     box-shadow: 0 12px 25px rgba(8, 24, 58, 0.2);
+    width: 100%;
+    justify-content: center;
 
     &:hover {
       & span {
@@ -120,7 +161,7 @@
   &__state {
     background: rgba(255, 255, 255, 0.15);
     color: $light;
-    padding: 1.6rem 2rem;
+    padding: 1.2rem 1.4rem;
     border-radius: 1.4rem;
     font-family: $contentFont;
   }
@@ -132,7 +173,7 @@
 
   &__cards {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 1.4rem;
   }
 }
@@ -213,13 +254,13 @@
 
 .why__header h2 {
   font-family: $titleFont;
-  font-size: 2.8rem;
+  font-size: 2.4rem;
   margin: 0;
 }
 
 .why__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 2.5rem;
 }
 
@@ -237,7 +278,7 @@
 
   p {
     margin: 0;
-    max-width: 22rem;
+    max-width: 28rem;
     font-family: $contentFont;
     font-size: 1.3rem;
     color: $grey-600;
@@ -246,8 +287,8 @@
 }
 
 .why__icon {
-  width: 88px;
-  height: 88px;
+  width: 76px;
+  height: 76px;
   border-radius: 999px;
   display: grid;
   place-items: center;
@@ -255,8 +296,8 @@
   box-shadow: $shadow-1;
 
   svg {
-    width: 58px;
-    height: 58px;
+    width: 50px;
+    height: 50px;
     stroke: $grey-900;
     stroke-width: 2.2;
     fill: none;
@@ -289,7 +330,7 @@
 
   h2 {
     font-family: $titleFont;
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     margin: 0;
   }
 
@@ -310,10 +351,10 @@
   padding: 0.2rem 0;
 
   summary {
-    padding: 1.2rem 2rem;
+    padding: 1.2rem 1.6rem;
     cursor: pointer;
     font-family: $titleFont;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 600;
     list-style: none;
     display: flex;
@@ -352,53 +393,66 @@
 
 .faq__answer {
   margin: 0 0 1.4rem;
-  padding: 0 2rem;
+  padding: 0 1.6rem;
   font-family: $contentFont;
   font-size: 1.4rem;
   color: $grey-600;
   line-height: 1.6;
 }
 
-@media (max-width: $ebook) {
+@media (min-width: $mobileP) {
   .container {
+    width: min(1200px, 92%);
     padding: 3rem 0 3.5rem;
-    gap: 2.5rem;
-  }
-
-  .container-inner img {
-    max-width: 480px;
-  }
-
-  .course-rail {
-    padding: 2.5rem;
-  }
-
-  .course-rail__promo {
-    margin-right: 0;
-    min-width: 16rem;
-  }
-
-  .course-rail__cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: $tablet) {
-  .container-inner {
-    flex-direction: column;
-    text-align: center;
-
-    img {
-      max-width: 420px;
-    }
   }
 
   .intro {
     margin-top: 1.5rem;
   }
 
-  .course-rail__inner {
-    grid-template-columns: 1fr;
+  .intro .join {
+    display: inline-flex;
+    justify-content: flex-start;
+    width: auto;
+    font-size: inherit;
+  }
+
+  .course-rail {
+    padding: 2rem;
+    border-radius: 28px;
+  }
+
+  .course-rail__cta {
+    width: auto;
+    justify-content: flex-start;
+  }
+
+  .course-rail__state {
+    padding: 1.6rem 2rem;
+  }
+
+  .why__icon {
+    width: 88px;
+    height: 88px;
+
+    svg {
+      width: 58px;
+      height: 58px;
+    }
+  }
+
+  .faq__item summary {
+    padding: 1.2rem 2rem;
+  }
+
+  .faq__answer {
+    padding: 0 2rem;
+  }
+}
+
+@media (min-width: $mobileL) {
+  .course-rail {
+    padding: 2.5rem;
   }
 
   .course-rail__cards {
@@ -409,83 +463,71 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .why__header h2 {
-    font-size: 2.4rem;
-  }
-
-  .faq__header h2 {
-    font-size: 2.2rem;
-  }
-}
-
-@media (max-width: $mobileL) {
-  .course-rail {
-    padding: 2rem;
-  }
-
-  .course-rail__cards {
-    grid-template-columns: 1fr;
-  }
-
-  .why__grid {
-    grid-template-columns: 1fr;
-  }
-
   .why__card p {
-    max-width: 28rem;
+    max-width: 22rem;
   }
 
   .faq__item summary {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
 }
 
-@media (max-width: $mobileP) {
-  .container {
-    width: min(1200px, 94%);
-    padding: 2.5rem 0 3rem;
+@media (min-width: $tablet) {
+  .container-inner {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .container-inner img {
+    max-width: 480px;
   }
 
   .intro {
-    margin-top: 1rem;
+    margin-top: 0;
   }
 
-  .intro .join {
-    display: inline-flex;
-    justify-content: center;
-    width: 100%;
-    font-size: 1.6rem;
+  .course-rail__inner {
+    grid-template-columns: 1fr auto;
+  }
+
+  .course-rail__cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .why__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .why__header h2 {
+    font-size: 2.8rem;
+  }
+
+  .faq__header h2 {
+    font-size: 2.6rem;
+  }
+}
+
+@media (min-width: $ebook) {
+  .container {
+    padding: 3.5rem 0 4rem;
+    gap: 3rem;
+  }
+
+  .container-inner img {
+    max-width: 520px;
   }
 
   .course-rail {
-    padding: 1.6rem;
-    border-radius: 22px;
+    padding: 2.75rem;
+    border-radius: 28px;
   }
 
-  .course-rail__cta {
-    width: 100%;
-    justify-content: center;
+  .course-rail__promo {
+    margin-right: 2rem;
+    min-width: 20rem;
   }
 
-  .course-rail__state {
-    padding: 1.2rem 1.4rem;
-  }
-
-  .why__icon {
-    width: 76px;
-    height: 76px;
-
-    svg {
-      width: 50px;
-      height: 50px;
-    }
-  }
-
-  .faq__item summary {
-    padding: 1.2rem 1.6rem;
-  }
-
-  .faq__answer {
-    padding: 0 1.6rem;
+  .course-rail__cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
