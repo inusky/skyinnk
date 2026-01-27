@@ -150,6 +150,7 @@ const scrollToLessonTitle = (lessonId: string) => {
 .chapter-title-container {
   min-height: 20vh;
   display: flex;
+  flex-flow: row wrap;
   align-items: center;
   justify-content: center;
 }
