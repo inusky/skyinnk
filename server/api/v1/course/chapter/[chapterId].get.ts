@@ -11,5 +11,15 @@ export default defineEventHandler(async (event) => {
     },
   });
 
-  return { lessons };
+  const chapter = await prisma.chapter.findFirst({
+    where: {
+      id: chapterId,
+      courseId: id,
+    },
+    select: {
+      title: true,
+    },
+  });
+
+  return { lessons, chapter };
 });

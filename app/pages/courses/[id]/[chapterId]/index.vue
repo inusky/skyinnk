@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <h1>Lessons</h1>
+    <div class="chapter-title-container">
+      <h1>{{ chapterTitle }}</h1>
+    </div>
+    <h1 class="lesson-page-title">Lessons</h1>
     <div class="lesson-layout">
       <div class="lesson-content">
         <p v-if="pending">Loading...</p>
@@ -80,11 +83,21 @@ type Lesson = {
   contentVideos: string;
 };
 
-const { data, pending, error } = useFetch<{ lessons: Lesson[] }>(
+type Chapter = {
+  title: string;
+};
+
+const { data, pending, error } = useFetch<{
+  lessons: Lesson[];
+  chapter: Chapter | null;
+}>(
   () => `/api/v1/course/chapter/${chapterId.value}?id=${courseId.value}`,
 );
 
 const lessons = computed<Lesson[]>(() => data.value?.lessons ?? []);
+const chapterTitle = computed(
+  () => data.value?.chapter?.title ?? 'Lessons',
+);
 
 const getLessonContent = (content: string | null | undefined) => {
   const trimmed = content?.replace(/\r\n/g, '\n').trim() ?? '';
@@ -132,6 +145,20 @@ const scrollToLessonTitle = (lessonId: string) => {
 
 .lesson-content {
   margin-top: 1.5rem;
+}
+
+.chapter-title-container {
+  min-height: 20vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lesson-page-title {
+  margin: 0.35rem 0 0;
+  font-family: $titleFont;
+  font-size: 2.2rem;
+  color: $grey-900;
 }
 
 .lesson-layout {
