@@ -4,6 +4,15 @@ export default defineEventHandler(async (event) => {
   const { chapterId }: any = event.context.params;
   const { id }: any = getQuery(event);
 
+  const chapter = await prisma.chapter.findUnique({
+    where: { id: chapterId },
+    select: { title: true, courseId: true },
+  });
+
+  if (!chapter || chapter.courseId !== id) {
+    throw createError({ statusCode: 404 });
+  }
+
   const lessons = await prisma.lesson.findMany({
     where: {
       chapterId,
@@ -11,15 +20,5 @@ export default defineEventHandler(async (event) => {
     },
   });
 
-  const chapter = await prisma.chapter.findFirst({
-    where: {
-      id: chapterId,
-      courseId: id,
-    },
-    select: {
-      title: true,
-    },
-  });
-
-  return { lessons, chapter };
+  return { lessons, chapter: { title: chapter.title } };
 });
