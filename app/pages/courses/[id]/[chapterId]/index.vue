@@ -3,64 +3,70 @@
     <div class="chapter-title-container">
       <h1>{{ chapterTitle }}</h1>
     </div>
-    <h1 class="lesson-page-title">Lessons</h1>
-    <div class="lesson-layout">
-      <div class="lesson-content">
-        <p v-if="pending">Loading...</p>
-        <p v-else-if="error">Error: {{ error.message }}</p>
-        <p v-else-if="!lessons.length">No lessons yet.</p>
-        <div v-else class="lesson-list">
-          <section
-            v-for="lesson in lessons"
-            :id="`lesson-${lesson.id}`"
-            :key="lesson.id"
-            class="lesson-block"
-          >
-            <h2 :id="`lesson-title-${lesson.id}`" class="lesson-block__title">
-              {{ lesson.title }}
-            </h2>
-            <div
-              v-html="getLessonContent(lesson.content)"
-              class="lesson-block__content"
-            ></div>
-            <NuxtLink
-              v-if="lesson.contentPPT"
-              @click="router.push(`${lesson.contentPPT}`)"
-              style="margin-top: 1rem"
-              >Download PPT</NuxtLink
-            >
-            <div
-              v-if="lesson.contentVideos"
-              v-for="video in getAudience(lesson.contentVideos)"
-              :key="video"
-              class="videos"
-            >
-              <video width="400" height="300" controls>
-                <source :src="video" type="video/webp" />
-              </video>
-            </div>
-          </section>
-        </div>
-      </div>
-      <aside v-if="lessons.length" class="lesson-nav" aria-label="Lesson links">
-        <h2 class="lesson-nav__title">Lessons in this chapter</h2>
-        <nav>
-          <ul class="lesson-nav__list">
-            <li
+    <div class="lesson">
+      <h1 class="lesson-page-title">Lessons</h1>
+      <div class="lesson-layout">
+        <div class="lesson-content">
+          <p v-if="pending">Loading...</p>
+          <p v-else-if="error">Error: {{ error.message }}</p>
+          <p v-else-if="!lessons.length">No lessons yet.</p>
+          <div v-else class="lesson-list">
+            <section
               v-for="lesson in lessons"
-              :key="`nav-${lesson.id}`"
-              class="lesson-nav__item"
+              :id="`lesson-${lesson.id}`"
+              :key="lesson.id"
+              class="lesson-block"
             >
-              <a
-                :href="`#lesson-${lesson.id}`"
-                @click.prevent="scrollToLessonTitle(lesson.id)"
-              >
+              <h2 :id="`lesson-title-${lesson.id}`" class="lesson-block__title">
                 {{ lesson.title }}
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </aside>
+              </h2>
+              <div
+                v-html="getLessonContent(lesson.content)"
+                class="lesson-block__content"
+              ></div>
+              <NuxtLink
+                v-if="lesson.contentPPT"
+                @click="router.push(`${lesson.contentPPT}`)"
+                style="margin-top: 1rem"
+                >Download PPT</NuxtLink
+              >
+              <div
+                v-if="lesson.contentVideos"
+                v-for="video in getAudience(lesson.contentVideos)"
+                :key="video"
+                class="videos"
+              >
+                <video width="400" height="300" controls>
+                  <source :src="video" type="video/webp" />
+                </video>
+              </div>
+            </section>
+          </div>
+        </div>
+        <aside
+          v-if="lessons.length"
+          class="lesson-nav"
+          aria-label="Lesson links"
+        >
+          <h2 class="lesson-nav__title">Lessons in this chapter</h2>
+          <nav>
+            <ul class="lesson-nav__list">
+              <li
+                v-for="lesson in lessons"
+                :key="`nav-${lesson.id}`"
+                class="lesson-nav__item"
+              >
+                <a
+                  :href="`#lesson-${lesson.id}`"
+                  @click.prevent="scrollToLessonTitle(lesson.id)"
+                >
+                  {{ lesson.title }}
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </div>
     </div>
   </div>
 </template>
@@ -90,14 +96,10 @@ type Chapter = {
 const { data, pending, error } = useFetch<{
   lessons: Lesson[];
   chapter: Chapter | null;
-}>(
-  () => `/api/v1/course/chapter/${chapterId.value}?id=${courseId.value}`,
-);
+}>(() => `/api/v1/course/chapter/${chapterId.value}?id=${courseId.value}`);
 
 const lessons = computed<Lesson[]>(() => data.value?.lessons ?? []);
-const chapterTitle = computed(
-  () => data.value?.chapter?.title ?? 'Lessons',
-);
+const chapterTitle = computed(() => data.value?.chapter?.title ?? 'Lessons');
 
 const getLessonContent = (content: string | null | undefined) => {
   const trimmed = content?.replace(/\r\n/g, '\n').trim() ?? '';
@@ -143,12 +145,23 @@ const scrollToLessonTitle = (lessonId: string) => {
 <style scoped lang="scss">
 @use '../../../../assets/scss/config/variables' as *;
 
-.lesson-content {
+.container {
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson {
+  max-width: 80%;
+  margin: 0 auto;
   margin-top: 1.5rem;
 }
 
 .chapter-title-container {
   min-height: 20vh;
+  background-image: linear-gradient(to top right, #1818dd, #963bc3);
+  outline: 4px solid #777;
+
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -216,6 +229,12 @@ const scrollToLessonTitle = (lessonId: string) => {
 .lesson-block__content {
   font-family: $tagFont;
   line-height: 2.1;
+  background-color: #fff;
+  padding: 1rem;
+  border: 1px solid #000;
+
+  display: flex;
+  flex-flow: row wrap;
 }
 
 .lesson-block__content :deep(p) {

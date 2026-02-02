@@ -2,21 +2,27 @@
 
 .header {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   min-width: 100%;
-  padding: 1rem;
   background-color: $light;
   z-index: 999;
   position: sticky;
   top: 0;
   gap: 1.5rem;
   flex-wrap: wrap;
+  opacity: 0.95;
 }
+
 .title-sel {
+  color: $black;
   display: flex;
   align-items: center;
   gap: 0.6rem;
+
+  &:hover {
+    color: $blue-700;
+  }
 
   .logo {
     width: 4.2rem;
@@ -38,8 +44,6 @@
 
     p {
       font-family: $tagFont;
-      font-style: italic;
-      color: #0ea5f6;
       margin-top: 0;
       font-size: 1.3rem;
       letter-spacing: 1px;
@@ -80,6 +84,7 @@
   align-items: flex-start;
   flex-direction: column;
   gap: 1rem;
+  margin-left: 3rem;
 }
 
 .title-nav {

@@ -6,10 +6,15 @@ export default defineNuxtRouteMiddleware(async () => {
 
   if (!isLoaded.value) {
     await new Promise<void>((resolve) => {
-      const unwatch = watch(isLoaded, () => {
-        unwatch();
-        resolve();
-      });
+      const unwatch = watch(
+        isLoaded,
+        (loaded) => {
+          if (!loaded) return;
+          unwatch();
+          resolve();
+        },
+        { immediate: true },
+      );
     });
   }
 

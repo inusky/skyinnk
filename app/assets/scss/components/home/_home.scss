@@ -1,0 +1,23 @@
+@use '../../config/variables' as *;
+
+.container {
+  width: min(1200px, 94%);
+  margin: 0 auto;
+  padding: 2.5rem 0 3rem;
+  display: grid;
+  gap: 2.5rem;
+}
+
+@media (min-width: $mobileP) {
+  .container {
+    width: min(1200px, 92%);
+    padding: 3rem 0 3.5rem;
+  }
+}
+
+@media (min-width: $ebook) {
+  .container {
+    padding: 3.5rem 0 4rem;
+    gap: 3rem;
+  }
+}

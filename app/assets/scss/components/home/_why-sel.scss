@@ -1,0 +1,147 @@
+@use '../../config/variables' as *;
+
+.why-sel-wrap {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: 2rem;
+  background-color: #fff;
+}
+
+.why__header {
+  text-align: center;
+  color: $grey-900;
+  padding-bottom: 1rem;
+
+  h1 {
+    padding-bottom: 1rem;
+  }
+}
+
+.why-sel {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'why1'
+    'why2'
+    'why3';
+  gap: 2rem;
+  z-index: 1;
+}
+
+.why__card {
+  display: grid;
+  gap: 1rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.why_note {
+  font-weight: 600;
+  margin: 0;
+
+  h1 {
+    margin: 0;
+    font-size: 2.2rem;
+  }
+}
+
+.why_image {
+  width: 30rem;
+  height: 20rem;
+  object-fit: cover;
+  overflow: hidden;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+
+  img {
+    width: 30rem;
+    height: 20rem;
+  }
+}
+
+.why_media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.why_subnote {
+  width: max-content;
+  max-width: min(22rem, 100%);
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fafafa;
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  opacity: 0.6;
+  font-size: 2rem;
+  line-height: 1.4;
+  z-index: 1;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+
+  h2 {
+    font-size: inherit;
+    font-family: 'Comfortaa', sans-serif;
+    font-weight: 700;
+    color: $red;
+    text-align: center;
+    margin: 0;
+    white-space: inherit;
+  }
+}
+
+.why_text,
+.why_note,
+.why_subnote {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+@media (min-width: $mobileP) {
+  .why__icon {
+    width: 88px;
+    height: 88px;
+
+    svg {
+      width: 58px;
+      height: 58px;
+    }
+  }
+}
+
+@media (min-width: $mobileL) {
+  .why__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .why__card p {
+    max-width: 22rem;
+  }
+}
+
+@media (min-width: $tablet) {
+  .why-sel {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-areas: 'why1 why2 why3';
+  }
+
+  .why__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .why__header h2 {
+    font-size: 2.8rem;
+  }
+}

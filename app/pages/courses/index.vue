@@ -14,7 +14,12 @@
                   <p class="course-description">{{ course.description }}</p>
                 </div>
                 <div class="course-media">
-                  <NuxtImg :src="course.image" :alt="course.title" loading="lazy" quality="80" />
+                  <NuxtImg
+                    :src="course.image"
+                    :alt="course.title"
+                    loading="lazy"
+                    quality="80"
+                  />
                   <div class="course-media__meta">
                     <span>Last updated {{ formatDate(course.updatedAt) }}</span>
                     <span>{{ course.lang || 'Multi-language' }}</span>
@@ -25,13 +30,19 @@
                 <div class="course-audience">
                   <h3>Who this course is for</h3>
                   <ul class="course-audience__list">
-                    <li v-for="(item, index) in getAudience(course.whoFor)" :key="`${course.id}-${index}`">
+                    <li
+                      v-for="(item, index) in getAudience(course.whoFor)"
+                      :key="`${course.id}-${index}`"
+                    >
                       {{ item }}
                     </li>
                   </ul>
                 </div>
                 <div class="course-actions">
-                  <button class="course-actions" @click="router.push(`/courses/${course.id}`)">
+                  <button
+                    class="course-actions"
+                    @click="router.push(`/courses/${course.id}`)"
+                  >
                     Start learning
                   </button>
                 </div>

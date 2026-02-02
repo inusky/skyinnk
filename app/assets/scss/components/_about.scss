@@ -1,3 +1,5 @@
+@use '../config/variables' as *;
+
 .container {
   display: flex;
   justify-content: center;
@@ -34,5 +36,22 @@
     &-inner {
       grid-column: 2 / 3;
     }
+  }
+}
+
+@media (min-width: $tablet) {
+  .container-inner {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .container-inner img {
+    max-width: 480px;
+  }
+}
+
+@media (min-width: $ebook) {
+  .container-inner img {
+    max-width: 520px;
   }
 }

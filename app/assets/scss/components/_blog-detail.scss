@@ -1,0 +1,149 @@
+@use '../config/variables' as *;
+
+.blog-detail {
+  padding: 3.5rem 0 5rem;
+  background: $app-BG;
+}
+
+.blog-detail__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.blog-detail__state {
+  padding: 1.4rem 1.6rem;
+  border: 1px solid $grey-200;
+  border-radius: 18px;
+  background: $grey-100;
+  font-family: $contentFont;
+  max-width: 760px;
+}
+
+.blog-detail__title {
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  line-height: 1.15;
+  margin: 0.8rem 0 0.6rem;
+  color: $grey-900;
+}
+
+.blog-detail__subtitle {
+  margin: 0;
+  color: $grey-600;
+  font-family: $contentFont;
+  font-size: 1.6rem;
+  line-height: 1.6;
+}
+
+.blog-detail__meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid $grey-200;
+  font-family: $tagFont;
+  color: $grey-500;
+  font-size: 1.1rem;
+}
+
+.blog-detail__media {
+  margin: 1.6rem 0 0.4rem;
+}
+
+.blog-detail__image {
+  width: 100%;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: $shadow-2;
+}
+
+.blog-detail__caption {
+  margin: 0.6rem 0 0;
+  font-size: 1.1rem;
+  color: $grey-500;
+  font-family: $tagFont;
+  text-align: center;
+}
+
+.blog-detail__content {
+  display: grid;
+  gap: 1.2rem;
+  margin-top: 1.2rem;
+
+  p {
+    margin: 0;
+    font-family: $contentFont;
+    font-size: 1.6rem;
+    line-height: 1.8;
+    color: $grey-800;
+  }
+}
+
+.blog-detail__article {
+  max-width: 760px;
+}
+
+.blog-detail__sidebar {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.blog-detail__sidebar-title {
+  font-family: $titleFont;
+  font-size: 1.6rem;
+  margin: 0;
+  color: $grey-900;
+}
+
+.blog-detail__sidebar-list {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.recent-card {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1.4rem;
+  border-radius: 20px;
+  border: 1px solid $grey-200;
+  background: $light;
+  box-shadow: $shadow-1;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+
+
+.recent-card__title {
+  font-family: $titleFont;
+  font-size: 1.4rem;
+  color: $grey-900;
+  margin: 0;
+}
+
+.recent-card__date {
+  margin: 0;
+  font-family: $tagFont;
+  font-size: 1.1rem;
+  color: $grey-500;
+}
+
+
+.recent-card:hover {
+  transform: translateY(-2px);
+  box-shadow: $shadow-2;
+  border-color: $grey-300;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+@media (min-width: $tablet) {
+  .blog-detail__layout {
+    grid-template-columns: minmax(0, 1fr) 260px;
+  }
+}

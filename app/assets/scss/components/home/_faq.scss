@@ -1,0 +1,131 @@
+@use '../../config/variables' as *;
+
+.faq {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  display: grid;
+  gap: 1.5rem;
+  color: $grey-900;
+  position: relative;
+  isolation: isolate;
+}
+
+.faq__bg-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.1;
+    display: block;
+  }
+}
+
+.faq__header {
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+
+  h2 {
+    font-family: $titleFont;
+    font-size: 2.2rem;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+    font-family: $contentFont;
+    color: $grey-600;
+    font-size: 1.4rem;
+  }
+}
+
+.faq__list {
+  border-top: 1px solid $grey-200;
+  position: relative;
+  z-index: 1;
+}
+
+.faq__item {
+  border-bottom: 1px solid $grey-200;
+  padding: 0.2rem 0;
+
+  summary {
+    padding: 1.2rem 1.6rem;
+    cursor: pointer;
+    font-family: $titleFont;
+    font-size: 1.4rem;
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::marker {
+    content: '';
+  }
+
+  summary::before {
+    content: '';
+    display: inline-block;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-right: 2px solid $grey-900;
+    border-bottom: 2px solid $grey-900;
+    transform: rotate(45deg) translate(-10px, 5px);
+    transition: transform 0.2s ease;
+  }
+
+  summary:focus-visible {
+    outline: 2px solid $blue-500;
+    outline-offset: 4px;
+    border-radius: 0.6rem;
+  }
+
+  &[open] summary::before {
+    transform: rotate(135deg) translate(4px, 5px);
+  }
+}
+
+.faq__answer {
+  margin: 0 0 1.4rem;
+  padding: 0 1.6rem;
+  font-family: $contentFont;
+  font-size: 1.4rem;
+  color: $grey-600;
+  line-height: 1.6;
+}
+
+@media (min-width: $mobileP) {
+  .faq__item summary {
+    padding: 1.2rem 2rem;
+  }
+
+  .faq__answer {
+    padding: 0 2rem;
+  }
+}
+
+@media (min-width: $mobileL) {
+  .faq__item summary {
+    font-size: 1.6rem;
+  }
+}
+
+@media (min-width: $tablet) {
+  .faq__header h2 {
+    font-size: 2.6rem;
+  }
+}

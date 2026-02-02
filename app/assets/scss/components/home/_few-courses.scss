@@ -1,0 +1,226 @@
+@use '../../config/variables' as *;
+
+.course-rail {
+  --rail-1: #0d4bd7;
+  --rail-2: #3a8df6;
+  --rail-3: #58c7b6;
+  --ink: #0f172a;
+  --muted: #64748b;
+
+  background: linear-gradient(
+    130deg,
+    var(--rail-1),
+    var(--rail-2) 55%,
+    var(--rail-3)
+  );
+  border-radius: 22px;
+  padding: 1.6rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: $shadow-4;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -30% -20% auto auto;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.32),
+      transparent 60%
+    );
+    opacity: 0.7;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: stretch;
+  }
+
+  &__promo {
+    display: grid;
+    align-content: center;
+    gap: 1.2rem;
+    color: $light;
+    font-family: $titleFont;
+    min-width: 16rem;
+    margin-right: 0;
+  }
+
+  &__eyebrow {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.4rem;
+    border-radius: 1.1rem;
+    background: $light;
+    color: #1153d1;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-decoration: none;
+    box-shadow: 0 12px 25px rgba(8, 24, 58, 0.2);
+    width: 100%;
+    justify-content: center;
+
+    &:hover {
+      & span {
+        transform: translateX(3px);
+        transition: all 0.2s ease;
+      }
+    }
+  }
+
+  &__content {
+    display: grid;
+    align-items: center;
+  }
+
+  &__state {
+    background: rgba(255, 255, 255, 0.15);
+    color: $light;
+    padding: 1.2rem 1.4rem;
+    border-radius: 1.4rem;
+    font-family: $contentFont;
+  }
+
+  &__state.is-error {
+    background: rgba(244, 93, 93, 0.2);
+    border: 1px solid rgba(244, 93, 93, 0.5);
+  }
+
+  &__cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+}
+
+.course-card {
+  background: $light;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  color: $grey-900;
+  box-shadow: $shadow-2;
+  display: grid;
+  grid-template-rows: 130px 1fr;
+  transform: translateY(0);
+  transition: transform 0.2s ease;
+  text-decoration: none;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  &__media {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__body {
+    padding: 1.2rem 1.4rem 1.6rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  &__kicker {
+    font-family: $tagFont;
+    font-size: 1.1rem;
+    color: $grey-500;
+  }
+
+  &__title {
+    font-family: $titleFont;
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  &__desc {
+    font-family: $contentFont;
+    font-size: 1.2rem;
+    color: $grey-600;
+  }
+}
+
+.course-card[data-variant='1'] .course-card__media {
+  background: linear-gradient(120deg, #1f51ff, #111827);
+}
+
+.course-card[data-variant='2'] .course-card__media {
+  background: linear-gradient(120deg, #0f766e, #14b8a6);
+}
+
+.course-card[data-variant='3'] .course-card__media {
+  background: linear-gradient(120deg, #f97316, #fb7185);
+}
+
+@media (min-width: $mobileP) {
+  .course-rail {
+    padding: 2rem;
+    border-radius: 28px;
+  }
+
+  .course-rail__cta {
+    width: auto;
+    justify-content: flex-start;
+  }
+
+  .course-rail__state {
+    padding: 1.6rem 2rem;
+  }
+}
+
+@media (min-width: $mobileL) {
+  .course-rail {
+    padding: 2.5rem;
+  }
+
+  .course-rail__cards {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
+}
+
+@media (min-width: $tablet) {
+  .course-rail__inner {
+    grid-template-columns: 1fr auto;
+  }
+
+  .course-rail__cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: $ebook) {
+  .course-rail {
+    padding: 2.75rem;
+    border-radius: 28px;
+  }
+
+  .course-rail__promo {
+    margin-right: 2rem;
+    min-width: 20rem;
+  }
+
+  .course-rail__cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

@@ -41,13 +41,12 @@ a {
   font-family: $tagFont;
   border: none;
   background: none;
-  color: $blue-700;
-  font-style: italic;
+  color: $black;
   cursor: pointer;
   justify-self: start;
 
   &:hover {
-    color: $blue-900;
+    color: $blue-700;
   }
 }
 
@@ -83,4 +82,8 @@ button {
 
 ul {
   list-style: none;
+}
+
+hr {
+  color: $quote;
 }

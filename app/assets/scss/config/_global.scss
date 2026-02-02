@@ -1,0 +1,29 @@
+@use 'variables' as *;
+
+.container {
+  margin: 0 auto;
+  max-width: 80%;
+}
+
+.quote {
+  margin: 1rem 0;
+
+  .first-line {
+    color: $blue-900;
+  }
+
+  .bottom-line {
+    margin: 2rem 0;
+    color: $blue-900;
+  }
+}
+
+.quote-text {
+  font-family: 'Comfortaa', sans-serif;
+  color: $quote;
+  font-size: 2.5rem;
+
+  span {
+    margin-right: 1rem;
+  }
+}

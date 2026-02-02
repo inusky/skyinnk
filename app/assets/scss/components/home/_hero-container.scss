@@ -1,0 +1,167 @@
+@use '../../config/variables' as *;
+
+.hero-container-bg {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
+
+  min-height: clamp(32rem, 70vh, 52rem);
+}
+
+.hero-bg-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.1;
+    display: block;
+  }
+}
+
+.hero-container {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 2.5rem;
+}
+
+.hero-text {
+  h1 {
+    max-width: 620px;
+    margin-bottom: 2rem;
+  }
+  p {
+    margin-bottom: 1rem;
+  }
+}
+
+.hero-left {
+  width: 100%;
+  display: grid;
+  gap: 1.6rem;
+  justify-items: center;
+  order: -1;
+}
+
+.hero-right {
+  width: 100%;
+  order: 0;
+  display: grid;
+  gap: 1.6rem;
+  justify-items: center;
+}
+
+.hero-right img {
+  width: 100%;
+  max-width: clamp(220px, 60vw, 320px);
+  margin-bottom: 0;
+}
+
+.join {
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 1.6rem;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  margin-right: 0;
+  flex-direction: column;
+  width: min(32rem, 100%);
+  margin-left: auto;
+  margin-right: auto;
+
+  .log-in > span {
+    font-size: 1.6rem;
+    margin-right: 0.7rem;
+  }
+}
+
+.log-in {
+  font-family: $tagFont;
+  text-align: center;
+
+  span {
+    font-style: italic;
+  }
+
+  &__link {
+    color: #1818ca;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@media (min-width: $mobileP) {
+  .intro {
+    margin-top: 1.5rem;
+  }
+
+  .intro .join {
+    display: inline-flex;
+    justify-content: flex-start;
+    width: auto;
+    font-size: inherit;
+  }
+}
+
+@media (min-width: $tablet) {
+  .hero-container {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .hero-left {
+    width: auto;
+    flex: 1 1 55%;
+    justify-items: start;
+    order: 0;
+  }
+
+  .hero-right {
+    width: auto;
+    flex: 1 1 45%;
+    order: 0;
+    justify-items: end;
+  }
+
+  .hero-right img {
+    max-width: clamp(300px, 30vw, 420px);
+    margin-bottom: 2.5rem;
+  }
+
+  .cta {
+    flex-direction: row;
+    gap: 2rem;
+    width: auto;
+    margin-right: auto;
+    margin-left: auto;
+    align-items: center;
+  }
+
+  .log-in {
+    text-align: left;
+  }
+
+  .intro {
+    margin-top: 0;
+  }
+}

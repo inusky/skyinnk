@@ -17,7 +17,7 @@ datasource db {
 model User {
   id        String    @id @default(cuid())
   clerkId   String    @unique
-  email     String    @unique
+  email     String?
   name      String?
   imageUrl  String?
   createdAt DateTime  @default(now())
@@ -32,7 +32,7 @@ model Course {
   id          String    @id @default(cuid())
   title       String    @unique
   description String
-  image       String
+  image       String?
   lang        String
   whoFor      String
   learning    String
@@ -58,18 +58,28 @@ model Chapter {
 }
 
 model Lesson {
-  id        String   @id @default(cuid())
-  title     String   @unique
-  content   String
-  contentPPT String?
+  id            String   @id @default(cuid())
+  title         String   @unique
+  content       String
+  contentPPT    String?
   contentVideos String?
-  chapter   Chapter  @relation(fields: [chapterId], references: [id])
-  chapterId String
-  course    Course   @relation(fields: [courseId], references: [id])
-  courseId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  chapter       Chapter  @relation(fields: [chapterId], references: [id])
+  chapterId     String
+  course        Course   @relation(fields: [courseId], references: [id])
+  courseId      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@index([courseId])
   @@index([chapterId])
+}
+
+model Blog {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  content     String
+  image       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime?
 }
