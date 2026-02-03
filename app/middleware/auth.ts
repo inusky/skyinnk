@@ -1,28 +1,17 @@
-import { watch } from 'vue';
-import { useAuth } from '@clerk/vue';
+export default defineNuxtRouteMiddleware(async (to) => {
+  const { me, pending, refresh } = useAuthState();
 
-export default defineNuxtRouteMiddleware(async () => {
-  const { isLoaded, isSignedIn } = useAuth();
-
-  if (!isLoaded.value) {
-    await new Promise<void>((resolve) => {
-      const unwatch = watch(
-        isLoaded,
-        (loaded) => {
-          if (!loaded) return;
-          unwatch();
-          resolve();
-        },
-        { immediate: true },
-      );
-    });
+  if (pending.value) {
+    await refresh();
   }
 
-  if (isSignedIn.value) {
-    await $fetch('/api/v1/auth/sync', {
-      method: 'post',
-    });
-  } else {
-    return navigateTo('/auth/sign-in');
+  if (!me.value?.authenticated) {
+    return navigateTo(
+      `/auth/sign-in?returnTo=${encodeURIComponent(to.fullPath)}`,
+    );
   }
+
+  await $fetch('/api/v1/auth/sync', {
+    method: 'POST',
+  });
 });

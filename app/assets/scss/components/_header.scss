@@ -80,6 +80,35 @@
   gap: 1.5rem;
 }
 
+.user-links__avatar {
+  width: 2.4rem;
+  height: 2.4rem;
+  min-width: 2.4rem;
+  min-height: 2.4rem;
+  flex: 0 0 2.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: $grey-100;
+  border: 1px solid $grey-200;
+  overflow: hidden;
+}
+
+.user-links__avatar img {
+  display: block;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-links__icon {
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: $grey-800;
+}
+
 .nav-links {
   display: flex;
   align-items: flex-start;
@@ -173,6 +202,7 @@
 .user-links a {
   font-size: 1.4rem;
 }
+
 
 @media (min-width: $mobileP) {
   .header {

@@ -1,39 +1,37 @@
 import { prisma } from '~~/server/utils/prisma';
-import { clerkClient } from '@clerk/nuxt/server';
 
 export default defineEventHandler(async (event) => {
-  const { userId, isAuthenticated } = event.context.auth();
-  if (!userId || !isAuthenticated) throw createError({ statusCode: 401 });
+  const auth0Client = useAuth0(event);
+  const user = await auth0Client.getUser();
+  const auth0Id = user?.sub;
+  if (!auth0Id) throw createError({ statusCode: 401 });
 
-  const user = await clerkClient(event).users.getUser(userId);
+  const primaryEmail = (user?.email as string | undefined) ?? null;
 
-  const primaryEmail =
-    user.emailAddresses.find((e) => e.id === user.primaryEmailAddressId)
-      ?.emailAddress ??
-    user.emailAddresses[0]?.emailAddress ??
-    null;
+  const fallbackName = [user?.given_name, user?.family_name]
+    .filter(Boolean)
+    .join(' ')
+    .trim();
+  const fullName = (user?.name as string | undefined) ?? (fallbackName || null);
 
-  const fullName =
-    [user.firstName, user.lastName].filter(Boolean).join(' ').trim() || null;
-
-  const imageUrl = user.imageUrl ?? null;
+  const imageUrl = (user?.picture as string | undefined) ?? null;
 
   const existing = await prisma.user.findUnique({
-    where: { clerkId: userId },
+    where: { auth0Id },
     select: { deletedAt: true },
   });
   if (existing?.deletedAt)
     throw createError({ statusCode: 403, statusMessage: 'Account deleted' });
 
   await prisma.user.upsert({
-    where: { clerkId: userId },
+    where: { auth0Id },
     update: {
       email: primaryEmail ?? undefined,
       name: fullName ?? undefined,
       imageUrl: imageUrl ?? undefined,
     },
     create: {
-      clerkId: userId,
+      auth0Id,
       email: primaryEmail ?? null,
       name: fullName ?? null,
       imageUrl,

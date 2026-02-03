@@ -37,17 +37,13 @@
           format="webp"
           preload
         />
-        <SignedOut>
-          <div class="cta">
-            <button @click="router.push('auth/sign-up')">Join for free</button>
-            <p class="log-in">
-              <span>Already have an account?</span>
-              <NuxtLink class="log-in__link" to="/auth/sign-in"
-                >Log in</NuxtLink
-              >
-            </p>
-          </div>
-        </SignedOut>
+        <div v-if="isSignedOut" class="cta">
+          <button @click="router.push('/auth/sign-up')">Join for free</button>
+          <p class="log-in">
+            <span>Already have an account?</span>
+            <NuxtLink class="log-in__link" to="/auth/sign-in">Log in</NuxtLink>
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -56,6 +52,7 @@
 <script setup lang="ts">
 const router = useRouter();
 const r2Url = ref('https://skyinnk-r2.skyinnk-api.workers.dev');
+const { isSignedOut } = useAuthState();
 </script>
 
 <style scoped lang="scss">
