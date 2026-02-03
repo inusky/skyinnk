@@ -15,7 +15,8 @@
               :src="`${r2Url}?key=one-to-one-learning.webp`"
               alt=""
               aria-hidden="true"
-              quality="80"
+              quality="75"
+              format="webp"
             />
           </div>
         </div>
@@ -33,7 +34,8 @@
               :src="`${r2Url}?key=concept-clarity.webp`"
               alt=""
               aria-hidden="true"
-              quality="80"
+              quality="75"
+              format="webp"
             />
           </div>
         </div>
@@ -51,7 +53,8 @@
               :src="`${r2Url}?key=progress-tracking.webp`"
               alt=""
               aria-hidden="true"
-              quality="80"
+              quality="75"
+              format="webp"
             />
           </div>
         </div>

@@ -31,7 +31,10 @@
                 :src="course.image"
                 :alt="course.title"
                 loading="lazy"
-                quality="80"
+                quality="75"
+                format="webp"
+                decoding="async"
+                sizes="(min-width: 1024px) 220px, (min-width: 640px) 45vw, 90vw"
               />
             </div>
             <div class="course-card__body">

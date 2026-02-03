@@ -20,7 +20,13 @@
               :src="blog.image"
               :alt="blog.title"
               class="blog-detail__image"
-              loading="lazy"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              quality="80"
+              format="webp"
+              preload
+              sizes="(min-width: 1024px) 760px, 100vw"
             />
           </div>
 

@@ -4,7 +4,14 @@
       <NuxtLink to="/">
         <div class="title-sel">
           <div class="logo">
-            <NuxtImg src="/favicon.png" alt="" aria-hidden="true" quality="10" />
+            <NuxtImg
+              src="/favicon.png"
+              alt=""
+              aria-hidden="true"
+              quality="90"
+              format="webp"
+              preload
+            />
           </div>
           <div class="sel">
             <h1>Skyinnk</h1>
@@ -32,8 +39,8 @@
     >
       <nav class="nav-links">
         <NuxtLink to="/courses" class="courses">Courses</NuxtLink>
-        <NuxtLink to="/about" class="about">About Us</NuxtLink>
-        <NuxtLink to="/blogs" class="blogs">Blogs</NuxtLink>
+        <NuxtLink to="/resources" class="resources">Resources</NuxtLink>
+        <NuxtLink to="/insights" class="blogs">Insights</NuxtLink>
       </nav>
     </div>
 

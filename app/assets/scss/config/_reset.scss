@@ -1,13 +1,9 @@
 @use 'variables' as *;
 
 html {
-  // Root font 1rem = 16px; default
-
-  font-size: 62.5%; // New default // 1rem = 10px
-  // Calculation => 10/16 = 62.5%
-  // 1rem = 9px, 9/16 = 56.25%
-  // 1rem = 8px, 8/16 = 50%
-  // 1rem = 14px, 14/16 = 87.5%
+  // Root font size scales down on smaller screens.
+  // 62.5% => 1rem = 10px, 56.25% => 1rem = 9px
+  font-size: clamp(56.25%, 0.9vw + 52%, 62.5%);
 
   box-sizing: border-box;
   scroll-behavior: smooth;
@@ -86,4 +82,9 @@ ul {
 
 hr {
   color: $quote;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }

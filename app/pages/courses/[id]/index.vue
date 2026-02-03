@@ -22,7 +22,10 @@
             :src="course.image || '/hero-illustration.svg'"
             :alt="course.title"
             loading="lazy"
-            quality="80"
+            quality="75"
+            :format="course.image ? 'webp' : undefined"
+            decoding="async"
+            sizes="(min-width: 1024px) 360px, (min-width: 768px) 300px, 90vw"
           />
           <div class="course-media__meta">
             <span>Last Updated {{ formatDate(course.updatedAt) }}</span>

@@ -2,7 +2,7 @@
   <div class="blogs-page">
     <div class="container">
       <header class="blogs-header">
-        <h1>Blogs</h1>
+        <h1>Insights</h1>
       </header>
 
       <section class="blogs-layout">
@@ -19,7 +19,7 @@
               v-for="blog in blogs"
               :key="blog.id"
               class="blog-card blog-card--compact blog-card--link"
-              :to="`/blogs/${blog.id}`"
+              :to="`/insights/${blog.id}`"
             >
               <div class="blog-card__content">
                 <h3 class="blog-card__title">{{ blog.title }}</h3>
@@ -42,11 +42,17 @@
                   :src="blog?.image"
                   alt=""
                   loading="lazy"
+                  decoding="async"
+                  quality="75"
+                  format="webp"
+                  sizes="(min-width: 1024px) 320px, (min-width: 768px) 45vw, 90vw"
                 />
               </div>
             </NuxtLink>
           </div>
         </div>
+
+        <hr class="blogs-divider" aria-hidden="true" />
 
         <aside class="blogs-sidebar">
           <h2 class="blogs-sidebar__title">Recent stories</h2>
@@ -67,7 +73,7 @@
               v-for="blog in recentBlogs"
               :key="`recent-${blog.id}`"
               class="recent-card"
-              :to="`/blogs/${blog.id}`"
+              :to="`/insights/${blog.id}`"
             >
               <h3 class="recent-card__title">{{ blog.title }}</h3>
               <p class="recent-card__date">
@@ -122,5 +128,5 @@ const formatShortDate = (value: string | Date | null | undefined) => {
 </script>
 
 <style lang="scss">
-@use '~/assets/scss/components/blogs' as *;
+@use '~/assets/scss/components/insights' as *;
 </style>

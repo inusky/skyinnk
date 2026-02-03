@@ -3,6 +3,7 @@
 .hero-container-bg {
   position: relative;
   overflow: hidden;
+  padding-top: 1rem;
   margin-bottom: 2rem;
 
   min-height: clamp(32rem, 70vh, 52rem);
@@ -34,6 +35,7 @@
   flex-direction: column;
   text-align: center;
   gap: 2.5rem;
+  padding-top: 1rem;
 }
 
 .hero-text {
@@ -110,16 +112,44 @@
   }
 }
 
+.intro {
+  margin-top: 1.5rem;
+}
+
+.intro .join {
+  display: inline-flex;
+  justify-content: flex-start;
+  width: auto;
+  font-size: inherit;
+}
+
+.hero-text {
+  h1 {
+    font-size: 3rem;
+  }
+}
+
 @media (min-width: $mobileP) {
   .intro {
-    margin-top: 1.5rem;
+    margin-top: 0;
   }
 
   .intro .join {
-    display: inline-flex;
-    justify-content: flex-start;
-    width: auto;
-    font-size: inherit;
+    justify-content: center;
+    width: 100%;
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: $mobileP) {
+  .hero-text {
+    h1 {
+      font-size: 2.5rem;
+    }
+  }
+
+  .quote-text {
+    font-size: 2rem;
   }
 }
 

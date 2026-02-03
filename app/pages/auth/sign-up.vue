@@ -9,6 +9,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  min-height: calc(100vh - 6rem);
+  padding: clamp(2rem, 5vw, 4rem) 1.5rem;
+}
+
+.sign-up :deep(.cl-rootBox) {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.sign-up :deep(.cl-card) {
+  width: 100%;
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+}
+
+.sign-up :deep(.cl-cardBox) {
+  width: min(90vw, 360px);
 }
 </style>

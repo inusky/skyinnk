@@ -2,15 +2,7 @@
   <section class="purpose" :class="{ 'is-playing': isPlaying }" id="purpose">
     <div class="purpose__inner container">
       <div v-show="!isPlaying" class="purpose__text">
-        <h2 class="purpose__title">Our Purpose, In Our Own Words</h2>
-
-        <p class="purpose__lead">
-          Education is about truly understanding concepts, building confidence,
-          and growing step by step — at a pace that feels right for every
-          learner.
-        </p>
-
-        <h3 class="purpose__sub">At Skyinnk, we believe:</h3>
+        <h1 class="purpose__title">At Skyinnk, we believe:</h1>
 
         <ul class="purpose__list">
           <li>
@@ -40,8 +32,8 @@
           <NuxtImg
             :src="posterUrl"
             alt="Purpose video thumbnail"
-            quality="85"
-            loading="lazy"
+            quality="75"
+            format="webp"
           />
           <span class="purpose__play" aria-hidden="true">▶</span>
         </button>

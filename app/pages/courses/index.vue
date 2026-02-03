@@ -18,7 +18,10 @@
                     :src="course.image"
                     :alt="course.title"
                     loading="lazy"
-                    quality="80"
+                    quality="75"
+                    format="webp"
+                    decoding="async"
+                    sizes="(min-width: 1024px) 240px, (min-width: 768px) 220px, 80vw"
                   />
                   <div class="course-media__meta">
                     <span>Last updated {{ formatDate(course.updatedAt) }}</span>

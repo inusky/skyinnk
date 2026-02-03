@@ -1,20 +1,20 @@
 @use '../../config/variables' as *;
 
 .purpose {
-  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  padding: 2rem 0;
 
   &__inner {
     position: relative;
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
+    grid-template-columns: 1fr;
     gap: clamp(1.5rem, 4vw, 3rem);
     align-items: center;
   }
 
   &__title {
-    font-size: clamp(1.8rem, 2.2vw, 2.4rem);
+    font-size: 1.7rem;
     line-height: 1.25;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
   &__lead {
@@ -34,16 +34,16 @@
     list-style: disc;
     line-height: 1.7;
     color: $blue-700;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
 
     li {
-      margin: 0.45rem 0;
+      margin-bottom: 1rem;
     }
   }
 
   &__media {
     position: relative;
-    min-height: clamp(220px, 26vw, 340px);
+    min-height: 220px;
   }
 
   &__poster {
@@ -72,8 +72,9 @@
 
   &__play {
     position: absolute;
-    bottom: 1rem;
-    left: 1rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 54px;
     height: 54px;
     border-radius: 50%;
@@ -121,15 +122,17 @@
     }
 
     .purpose__media {
-      min-height: clamp(280px, 48vh, 520px);
+      min-height: 65vh;
     }
   }
 }
 
-@media (max-width: 900px) {
+@media (min-width: $mobileL) {
   .purpose {
-    &__inner {
-      grid-template-columns: 1fr;
+    padding: clamp(2.5rem, 5vw, 4rem) 0;
+
+    &__title {
+      font-size: clamp(1.8rem, 2.2vw, 2.4rem);
     }
 
     &__media {
@@ -144,21 +147,19 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (min-width: $tablet) {
   .purpose {
-    padding: 2rem 0;
-
-    &__title {
-      font-size: 1.7rem;
+    &__inner {
+      grid-template-columns: 1.1fr 0.9fr;
     }
 
     &__media {
-      min-height: 220px;
+      min-height: clamp(220px, 26vw, 340px);
     }
 
     &.is-playing {
       .purpose__media {
-        min-height: 65vh;
+        min-height: clamp(280px, 48vh, 520px);
       }
     }
   }

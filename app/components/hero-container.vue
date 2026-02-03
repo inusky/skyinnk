@@ -5,8 +5,9 @@
         :src="`${r2Url}?key=hero-bg-image.webp`"
         alt=""
         aria-hidden="true"
-        quality="90"
-        loading="lazy"
+        quality="70"
+        format="webp"
+        preload
       />
     </div>
     <div class="hero-container container">
@@ -32,7 +33,9 @@
           :src="r2Url + '?key=hero-image-on-top.webp'"
           alt=""
           aria-hidden="true"
-          quality="90"
+          quality="85"
+          format="webp"
+          preload
         />
         <SignedOut>
           <div class="cta">

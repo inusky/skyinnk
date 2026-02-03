@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     },
   },
   image: {
-    domains: ['skyinnk-r2.skyinnk-api.workers.dev'],
+    domains: ['skyinnk-r2.skyinnk-api.workers.dev', 'i.ytimg.com'],
   },
   postcss: {
     plugins: {
