@@ -1,89 +1,90 @@
+<template>
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <h1>Sign in</h1>
+
+      <label>Email</label>
+      <input type="email" placeholder="Email" v-model="email" />
+
+      <p class="terms">
+        By continuing, you agree to the
+        <a href="#">Self Service PSS</a> and <a href="#">Privacy Policy</a>.
+      </p>
+
+      <button class="primary" @click="continueWithEmail">Continue</button>
+
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <button class="oauth google" @click="continueWithGoogle">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+          <path
+            fill="#EA4335"
+            d="M24 9.5c3.54 0 6.34 1.22 8.69 3.22l6.47-6.47C35.2 2.58 30.1 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.55 5.86C12.1 12.09 17.57 9.5 24 9.5z"
+          />
+          <path
+            fill="#4285F4"
+            d="M46.1 24.5c0-1.64-.15-3.21-.42-4.73H24v9.46h12.4c-.54 2.88-2.15 5.32-4.57 6.95l7.19 5.58c4.2-3.88 6.08-9.6 6.08-17.26z"
+          />
+          <path
+            fill="#FBBC05"
+            d="M10.11 28.08c-.54-1.62-.85-3.35-.85-5.08s.31-3.46.85-5.08l-7.55-5.86C.92 15.64 0 19.72 0 24s.92 8.36 2.56 11.94l7.55-5.86z"
+          />
+          <path
+            fill="#34A853"
+            d="M24 48c6.1 0 11.2-2.01 14.93-5.47l-7.19-5.58c-2 1.35-4.57 2.15-7.74 2.15-6.43 0-11.9-2.59-13.89-9.58l-7.55 5.86C6.51 42.62 14.62 48 24 48z"
+          />
+        </svg>
+        Continue with Google
+      </button>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
-definePageMeta({
-  middleware: 'guest',
-});
+import { ref } from 'vue';
 
-const route = useRoute();
-const returnTo = (route.query.returnTo as string | undefined) || '/';
+const email = ref('');
 
-const { me, pending: mePending } = useAuthState();
-
-const syncing = ref(false);
-const syncError = ref<string | null>(null);
-
-const syncIfAuthenticated = async () => {
-  if (!me.value?.authenticated || syncing.value) return;
-  syncing.value = true;
-  syncError.value = null;
-  try {
-    await $fetch('/api/v1/auth/sync', { method: 'POST' });
-  } catch (err: any) {
-    syncError.value = err?.message || 'Sync failed';
-  } finally {
-    syncing.value = false;
-  }
+/**
+ * Shared helper
+ * Keeps logic centralized + future-proof
+ */
+const redirectToAuth0 = (params: Record<string, string>) => {
+  const qs = new URLSearchParams(params);
+  window.location.href = `/auth/login?${qs.toString()}`;
 };
 
-watch(
-  () => me.value?.authenticated,
-  () => {
-    void syncIfAuthenticated();
-  },
-  { immediate: true },
-);
+const continueWithEmail = () => {
+  const value = email.value.trim();
 
-const goToLogin = () =>
-  navigateTo(`/auth/login?returnTo=${encodeURIComponent(returnTo)}`, {
-    external: true,
+  if (!value) return;
+
+  // Optional lightweight validation (safe + future-proof)
+  const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  if (!isValid) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+
+  redirectToAuth0({
+    connection: 'email',
+    login_hint: email.value,
   });
+};
+
+/**
+ * Google login (FORCED provider)
+ */
+const continueWithGoogle = () => {
+  redirectToAuth0({
+    returnTo: '/',
+    connection: 'google-oauth2',
+  });
+};
 </script>
 
-<template>
-  <section class="auth auth--in">
-    <div class="auth__bg" />
-    <div class="auth__grid">
-      <div class="auth__copy">
-        <p class="auth__eyebrow">Welcome back</p>
-        <h1 class="auth__title">Sign in to keep learning.</h1>
-        <p class="auth__subtitle">
-          Your progress, saved lessons, and personalized path are waiting.
-        </p>
-        <ul class="auth__points">
-          <li>Resume where you left off</li>
-          <li>Sync your account across devices</li>
-          <li>Keep everything backed up</li>
-        </ul>
-      </div>
-
-      <div class="auth__card">
-        <div class="auth__card-header">
-          <h2>Sign in</h2>
-          <p>Continue with your Skyinnk account.</p>
-        </div>
-
-        <button class="auth__primary" @click="goToLogin">
-          Continue with Skyinnk
-        </button>
-
-        <div class="auth__meta">
-          <div class="auth__status" v-if="mePending">Checking session…</div>
-          <div class="auth__status" v-else-if="me?.authenticated">
-            Signed in as
-            <strong>{{ me.user?.email || me.user?.name || 'User' }}</strong>
-          </div>
-          <div class="auth__status auth__status--muted" v-else>
-            Not signed in yet.
-          </div>
-          <div class="auth__status auth__status--warn" v-if="syncError">
-            {{ syncError }}
-          </div>
-
-          <div class="auth__footer">
-            <span>New here?</span>
-            <NuxtLink to="/auth/sign-up">Create an account</NuxtLink>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</template>
+<style scoped lang="scss">
+@use '../../assets/scss/components/auth' as *;
+</style>

@@ -1,33 +1,15 @@
-import { prisma } from '~~/server/utils/prisma';
-
 export default defineEventHandler(async (event) => {
-  const auth0Client = useAuth0(event);
-  const user = await auth0Client.getUser();
-  const auth0Id = user?.sub;
+  const auth0 = useAuth0(event);
+  const session = await auth0.getSession();
 
-  if (!auth0Id) {
-    return { authenticated: false };
-  }
-
-  const dbUser = await prisma.user.findUnique({
-    where: { auth0Id },
-    select: {
-      id: true,
-      auth0Id: true,
-      email: true,
-      name: true,
-      imageUrl: true,
-      deletedAt: true,
-    },
-  });
-
-  if (dbUser?.deletedAt) {
+  if (!session?.user) {
+    // Not logged in
     return { authenticated: false, user: null };
   }
 
+  // Logged in
   return {
     authenticated: true,
-    user: dbUser,
-    auth0User: user,
+    user: session.user,
   };
 });

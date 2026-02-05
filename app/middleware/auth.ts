@@ -1,17 +1,9 @@
-export default defineNuxtRouteMiddleware(async (to) => {
-  const { me, pending, refresh } = useAuthState();
+export default defineNuxtRouteMiddleware(async () => {
+  const user: any = await $fetch('/api/auth/me');
 
-  if (pending.value) {
-    await refresh();
+  if (!user.authenticated) {
+    return navigateTo('/auth/sign-in');
+  } else {
+    return;
   }
-
-  if (!me.value?.authenticated) {
-    return navigateTo(
-      `/auth/sign-in?returnTo=${encodeURIComponent(to.fullPath)}`,
-    );
-  }
-
-  await $fetch('/api/v1/auth/sync', {
-    method: 'POST',
-  });
 });

@@ -47,7 +47,6 @@
     <div class="header__user">
       <nav v-if="isSignedOut" class="user-links user-links--auth">
         <NuxtLink to="/auth/sign-in">Sign in</NuxtLink>
-        <NuxtLink to="/auth/sign-up">Sign up</NuxtLink>
       </nav>
 
       <nav v-else-if="isSignedIn" class="user-links user-links--auth">
