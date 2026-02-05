@@ -38,11 +38,7 @@
           preload
         />
         <div v-if="isSignedOut" class="cta">
-          <button @click="router.push('/auth/sign-up')">Join for free</button>
-          <p class="log-in">
-            <span>Already have an account?</span>
-            <NuxtLink class="log-in__link" to="/auth/sign-in">Log in</NuxtLink>
-          </p>
+          <button @click="router.push('/auth/sign-in')">Join for free</button>
         </div>
       </div>
     </div>
