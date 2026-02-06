@@ -47,42 +47,33 @@ import { ref } from 'vue';
 
 const email = ref('');
 
-/**
- * Shared helper
- * Keeps logic centralized + future-proof
- */
 const redirectToAuth0 = (params: Record<string, string>) => {
-  const qs = new URLSearchParams(params);
+  const qs = new URLSearchParams({
+    returnTo: '/', // default
+    ...params,
+  });
   window.location.href = `/auth/login?${qs.toString()}`;
 };
 
 const continueWithEmail = () => {
   const value = email.value.trim();
-
   if (!value) return;
 
-  // Optional lightweight validation (safe + future-proof)
   const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-  if (!isValid) {
-    alert('Please enter a valid email address.');
-    return;
-  }
+  if (!isValid) return alert('Please enter a valid email address.');
 
   redirectToAuth0({
-    connection: 'email',
-    login_hint: email.value,
+    connection: 'Username-Password-Authentication',
+    login_hint: value,
   });
 };
 
-/**
- * Google login (FORCED provider)
- */
 const continueWithGoogle = () => {
   redirectToAuth0({
-    returnTo: '/',
     connection: 'google-oauth2',
   });
 };
+
 </script>
 
 <style scoped lang="scss">
