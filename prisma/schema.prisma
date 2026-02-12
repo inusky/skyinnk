@@ -75,13 +75,13 @@ model Lesson {
 }
 
 model Blog {
-  id          String    @id @default(cuid())
+  id          String   @id @default(cuid())
   title       String
   description String
   content     String
   image       String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Resourses {
