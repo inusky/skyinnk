@@ -1,0 +1,4 @@
+:root {
+  --auth-widget-font-size: 1.05rem;
+  --clerk-font-size: var(--auth-widget-font-size);
+}

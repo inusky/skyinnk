@@ -38,7 +38,7 @@
           preload
         />
         <div v-if="isSignedOut" class="cta">
-          <button @click="router.push('/auth/sign-in')">Join for free</button>
+          <button type="button" @click="goToAuth0">Join for free</button>
         </div>
       </div>
     </div>
@@ -46,9 +46,14 @@
 </template>
 
 <script setup lang="ts">
-const router = useRouter();
+const route = useRoute();
 const r2Url = ref('https://skyinnk-r2.skyinnk-api.workers.dev');
 const { isSignedOut } = useAuthState();
+
+const goToAuth0 = () => {
+  const qs = new URLSearchParams({ returnTo: route.fullPath });
+  window.location.href = `/auth/login?${qs.toString()}`;
+};
 </script>
 
 <style scoped lang="scss">

@@ -1,15 +1,12 @@
+import { getAuthUserContext, serializeUser } from '~~/server/utils/auth-user';
+
 export default defineEventHandler(async (event) => {
-  const auth0 = useAuth0(event);
-  const session = await auth0.getSession();
+  const { authenticated, identity, user } = await getAuthUserContext(event);
 
-  if (!session?.user) {
-    // Not logged in
-    return { authenticated: false, user: null };
-  }
-
-  // Logged in
   return {
-    authenticated: true,
-    user: session.user,
+    authenticated,
+    hasDatabaseUser: Boolean(user),
+    identity,
+    user: serializeUser(user),
   };
 });

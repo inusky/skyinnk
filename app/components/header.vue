@@ -46,14 +46,14 @@
 
     <div class="header__user">
       <nav v-if="isSignedOut" class="user-links user-links--auth">
-        <NuxtLink to="/auth/sign-in">Sign in</NuxtLink>
+        <a :href="loginHref">Sign in</a>
       </nav>
 
       <nav v-else-if="isSignedIn" class="user-links user-links--auth">
         <span class="user-links__avatar" :title="displayName">
           <img
-            v-if="me?.user?.imageUrl"
-            :src="me.user.imageUrl"
+            v-if="avatarUrl"
+            :src="avatarUrl"
             alt=""
             loading="lazy"
           />
@@ -78,8 +78,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+const route = useRoute();
 const isMenuOpen = ref(false);
-const { isSignedIn, isSignedOut, displayName, me } = useAuthState();
+const { isSignedIn, isSignedOut, displayName, avatarUrl } = useAuthState();
+const loginHref = computed(() => {
+  const qs = new URLSearchParams({ returnTo: route.fullPath });
+  return `/auth/login?${qs.toString()}`;
+});
 
 </script>
 

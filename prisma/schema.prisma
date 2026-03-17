@@ -17,8 +17,9 @@ datasource db {
 model User {
   id        String    @id @default(cuid())
   auth0Id   String    @unique
-  email     String?
-  name      String?
+  email     String
+  name      String
+  mobile    String?
   imageUrl  String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
