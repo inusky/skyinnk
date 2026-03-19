@@ -45,9 +45,27 @@
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 1fr;
+    row-gap: 2rem;
+
+    h2 {
+      margin-bottom: 1.8rem;
+      max-width: 22ch;
+      line-height: 1.4;
+    }
+
+    p {
+      max-width: 50ch;
+      line-height: 1.8;
+      color: $grey-800;
+    }
 
     &-inner {
       grid-column: 1 / -1;
+      width: 100%;
+
+      > div {
+        max-width: 58rem;
+      }
     }
   }
 }
@@ -68,7 +86,7 @@
   }
 
   .container-inner .content {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(40rem, 58rem) minmax(0, 1fr);
   }
 
   .container-inner .content-inner {
